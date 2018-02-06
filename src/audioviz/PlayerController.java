@@ -237,10 +237,11 @@ public class PlayerController implements Initializable {
     }
     public String format(Duration duration){
         String format = String.format("%%0%dd", 2);
-        double elapsedTime = (duration.toMillis() / 1000);
+        long elapsedTime = (long) (duration.toMillis() / 1000);
         String seconds = String.format(format, elapsedTime % 60);
         String minutes = String.format(format, (elapsedTime % 3600) / 60);
-        String time = minutes + ":" + seconds;
+        String millis = String.format(format,(long)(duration.toMillis())%100);
+        String time = minutes + ":" + seconds + ":" + millis;
         /*http://www.java2s.com/Code/Java/Development-Class/Elapsedtimeinhoursminutesseconds.htm*/
         
         return time;
