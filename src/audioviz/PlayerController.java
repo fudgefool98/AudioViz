@@ -165,7 +165,8 @@ public class PlayerController implements Initializable {
     
     private void handleReady() {
         Duration duration = mediaPlayer.getTotalDuration();
-        lengthText.setText(duration.toString());
+        
+        lengthText.setText(this.format(mediaPlayer.getTotalDuration()));
         Duration ct = mediaPlayer.getCurrentTime();
         currentText.setText(ct.toString());
         currentVisualizer.start(numBands, vizPane);
@@ -182,7 +183,7 @@ public class PlayerController implements Initializable {
     private void handleUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
         Duration ct = mediaPlayer.getCurrentTime();
         double ms = ct.toMillis();
-        currentText.setText(Double.toString(ms));
+        currentText.setText(this.format(ct));
         timeSlider.setValue(ms);
         
         currentVisualizer.update(timestamp, duration, magnitudes, phases);
@@ -233,5 +234,15 @@ public class PlayerController implements Initializable {
             currentVisualizer.start(numBands, vizPane);
             mediaPlayer.play();
         }  
+    }
+    public String format(Duration duration){
+        String format = String.format("%%0%dd", 2);
+        double elapsedTime = (duration.toMillis() / 1000);
+        String seconds = String.format(format, elapsedTime % 60);
+        String minutes = String.format(format, (elapsedTime % 3600) / 60);
+        String time = minutes + ":" + seconds;
+        /*http://www.java2s.com/Code/Java/Development-Class/Elapsedtimeinhoursminutesseconds.htm*/
+        
+        return time;
     }
 }
